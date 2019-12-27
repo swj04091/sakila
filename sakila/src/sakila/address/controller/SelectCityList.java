@@ -11,30 +11,29 @@ import javax.servlet.http.HttpServletResponse;
 
 import com.google.gson.Gson;
 
-import sakila.address.model.Country;
-import sakila.address.model.CountryDao;
-import sakila.address.service.CountryService;
+import sakila.address.model.City;
+import sakila.address.model.CityDao;
 
 
-@WebServlet("/address/SelectCountryList")
-public class SelectCountryList extends HttpServlet {
+@WebServlet("/selectCityList")
+public class SelectCityList extends HttpServlet {
 	
-	private CountryService countryService;
+	private CityDao cityDao;
 	
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		response.setContentType("apllication/json");
-		System.out.println("/sakila/adress/selectCountryList");
-		List<Country> list = null;
+		response.setContentType("apllication/json;charset=UTF-8");
+		System.out.println("address/SelectCityList");
 		
-		countryService = new CountryService();
-		list = countryService.selectCountryList();
+		cityDao = new CityDao();
+		List <City> list = cityDao.selectCityList();
 		
-		System.out.println("ServletList: "+list);
+		System.out.println("CityList: "+list);
 		
 		Gson gson = new Gson();
 		String jsonList = gson.toJson(list);
-		System.out.println(jsonList);
+		System.out.println("jsonList: "+jsonList);
 		response.getWriter().write(jsonList);
 		
 	}
+
 }

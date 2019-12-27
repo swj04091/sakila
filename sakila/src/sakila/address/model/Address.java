@@ -7,9 +7,15 @@ public class Address {
 	private String district;
 	private City city;
 	private String postalCode;
-	private int phone;
+	private String phone;
 	private String lastUpdate;
 	
+	public String getLastUpdate() {
+		return lastUpdate;
+	}
+	public void setLastUpdate(String lastUpdate) {
+		this.lastUpdate = lastUpdate;
+	}
 	public int getAdressId() {
 		return adressId;
 	}
@@ -46,26 +52,17 @@ public class Address {
 	public void setPostalCode(String postalCode) {
 		this.postalCode = postalCode;
 	}
-	public int getPhone() {
+	public String getPhone() {
 		return phone;
 	}
-	public void setPhone(int phone) {
+	public void setPhone(String phone) {
 		this.phone = phone;
 	}
-	public String getLastUpdate() {
-		return lastUpdate;
-	}
-	public void setLastUpdate(String lastUpdate) {
-		this.lastUpdate = lastUpdate;
-	}
-	
 	@Override
 	public String toString() {
-		return "Adress [adressId=" + adressId + ", adress=" + adress + ", adress2=" + adress2 + ", district=" + district
-				+ ", city=" + city + ", postalCode=" + postalCode + ", phone=" + phone + ", lastUpdate=" + lastUpdate
-				+ "]";
+		return "Address [adressId=" + adressId + ", adress=" + adress + ", adress2=" + adress2 + ", district="
+				+ district + ", city=" + city + ", postalCode=" + postalCode + ", phone=" + phone + ", lastUpdate="
+				+ lastUpdate + "]";
 	}
-	
-	
 	
 }

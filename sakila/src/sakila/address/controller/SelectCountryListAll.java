@@ -1,6 +1,8 @@
 package sakila.address.controller;
 
 import java.io.IOException;
+import java.util.List;
+
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -13,16 +15,19 @@ import sakila.address.model.Country;
 import sakila.address.model.CountryDao;
 
 
-@WebServlet("/sakila/address/selectCountryCount")
-public class SelectCountryCount extends HttpServlet {
+@WebServlet("/selectCountryListAll")
+public class SelectCountryListAll extends HttpServlet {
+	
 	private CountryDao countryDao;
+	
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		response.setContentType("application/json;charset=UTF-8");
+		response.setContentType("application/json;charset=UTF-8"); 
 		countryDao = new CountryDao();
-		int count = countryDao.selectCountryCount();
+		List<Country> list = countryDao.selectCountryListAll();
+		
 		Gson gson = new Gson();
-		String jsonCount = gson.toJson(count);
-		response.getWriter().write(jsonCount);
+		String jsonStr = gson.toJson(list);
+		response.getWriter().write(jsonStr);
 	}
 
 }

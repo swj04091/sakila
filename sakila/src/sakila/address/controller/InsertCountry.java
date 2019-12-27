@@ -8,7 +8,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import sakila.address.model.Country;
-import sakila.address.model.CountryDao;
+import sakila.address.service.CountryService;
 
 /**
  * Servlet implementation class InsertCountry
@@ -16,18 +16,18 @@ import sakila.address.model.CountryDao;
 @WebServlet("/address/InsertCountry")
 public class InsertCountry extends HttpServlet {
 	
-	private CountryDao countryDao;
+	private CountryService countryService;
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		request.setCharacterEncoding("UTF-8");
+		countryService = new CountryService();
 		String country = request.getParameter("country");
 		System.out.println("Country: "+country);
 		System.out.println("/address/InsertCountry");
 		
-		countryDao = new CountryDao();
 		Country c = new Country();
 		c.setCountry(country);
 		System.out.println("c.setCountry: "+country);
-		countryDao.insertCountry(c);
+		countryService.insertCountry(c);
 		
 	}
 

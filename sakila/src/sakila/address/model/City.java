@@ -3,7 +3,7 @@ package sakila.address.model;
 public class City {
 	private int cityId;
 	private String city;
-	private Country contry;
+	private Country country;
 	private String lastUpate;
 	
 	public int getCityId() {
@@ -18,11 +18,11 @@ public class City {
 	public void setCity(String city) {
 		this.city = city;
 	}
-	public Country getContry() {
-		return contry;
+	public Country getCountry() {
+		return country;
 	}
-	public void setContry(Country contry) {
-		this.contry = contry;
+	public void setCountry(Country country) {
+		this.country = country;
 	}
 	public String getLastUpate() {
 		return lastUpate;
@@ -32,7 +32,7 @@ public class City {
 	}
 	@Override
 	public String toString() {
-		return "City [cityId=" + cityId + ", city=" + city + ", contry=" + contry + ", lastUpate=" + lastUpate + "]";
+		return "City [cityId=" + cityId + ", city=" + city + ", country=" + country + ", lastUpate=" + lastUpate + "]";
 	}
 	
 	

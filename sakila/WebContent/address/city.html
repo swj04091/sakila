@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>City management</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<style>
+	body {
+		padding: 0;
+		margin: 0;
+		width: 100%;
+		height: 100%;
+		overflow: hidden;
+		background-position: 0 0;
+		background-repeat: no-repeat;
+		background-attachment: fixed;
+		background-size: cover;
+		position: relative;
+		overflow-y: auto;
+	}
+	
+	#aside {
+		width: 200px;
+		height: 3000px;
+		position: fixed;
+		background: orange;
+		overflow: hidden;
+		float: left;
+	}
+	
+	#section {
+		margin-left: 300px;
+		margin-right: 500px;
+		margin-bottom: 100px;
+		background: white;	
+	}
+
+</style>
+</head>
+<body>
+	<div id="aside">
+	
+	</div>
+	<div id="section">
+		<h1>City management</h1>
+		<h2>city 추가</h2>
+		<div>
+			<div>
+			
+			<div>
+				country목록
+				<select size="10" id="countryList">
+				
+				</select>
+			</div>
+			
+			</div>
+			<div>
+				<table>
+					<tr>
+						<td>country id :</td>
+						<td><input type="text" id="countryId" readonly="readonly"></td>
+					</tr>
+					<tr>
+						<td>city :</td>
+						<td><input type="text" id="city"></td>
+					</tr>
+					<tr>
+						<td colspan="2">
+							<button type="button" id="addCity">ADD</button>
+						</td>
+					</tr>
+				</table>
+			</div>
+		</div>
+		<h2>city 목록</h2>
+		<div>
+			<table border="1">
+				<thead>
+					<tr>
+						<th>city_id</th>
+						<th>city</th>
+						<th>country_id</th>
+						<th>country</th><!-- city INNER JOIN country -->
+						<th>last_update</th>
+					</tr>
+				</thead>
+				<tbody id="list">
+					
+				</tbody>
+			</table>
+		</div>
+	</div>
+</body>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+
+<script>
+	//aside.html include
+	$("#aside").load("/sakila/aside.html");
+	$.ajax({
+		url:"/sakila/selectCityList",
+		method:"POST",
+		success:function(json){
+			console.log(json);
+			for(let c of json){
+				let html = "<tr><td>"+c.cityId+"</td><td>"+c.city+"</td><td>"+c.country.countryId+"</td><td>"+c.country.country+"</td><td>"+c.lastUpate+"</td></tr>";
+				$("#list").append(html);
+			}
+		}
+	});
+	$.ajax({
+		url:"/sakila/selectCountryListAll",
+		method:"POST",
+		success:function(json){
+			console.log(json);
+			// <select>:countryList <option> 추가
+			$("#countryList").empty();
+			for(let c of json){
+				$("#countryList").append("<option value='"+c.countryId+"'>"+c.country+"</option>");
+			}
+		}
+	});
+	
+	$("#countryList").change(function(){
+		$("#countryId").val($("#countryList").val());	//#text, html(), val()
+	});
+	
+	$("#addCity").click(function(){
+		if($("#countryId").val() === "" || $("#city").val() === ""){
+			alert("입력......");
+			return;
+		} else{
+			$.ajax({
+				url:"/sakila/insertCity",	//controllerURL
+				method:"POST",
+				data:{"countryId":$("#countryId").val(), "city":$("#city").val()},
+				success: function(){
+					console.log("Success!");
+				}
+			});	
+		}
+	});
+</script>
+</html>

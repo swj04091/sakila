@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Address 관리</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<style>
+	body {
+		padding: 0;
+		margin: 0;
+		width: 100%;
+		height: 100%;
+		overflow: hidden;
+		background-position: 0 0;
+		background-repeat: no-repeat;
+		background-attachment: fixed;
+		background-size: cover;
+		position: relative;
+		overflow-y: auto;
+	}
+	
+	#aside {
+		width: 200px;
+		height: 3000px;
+		position: fixed;
+		background: orange;
+		overflow: hidden;
+		float: left;
+	}
+	
+	#section {
+		margin-left: 300px;
+		margin-right: 500px;
+		margin-bottom: 100px;
+		background: white;
+	}
+</style>
+</head>
+<body>
+	<div id="aside">
+	
+	</div>
+	<div id="section">
+		<h1>Address</h1>
+		<h2>Address List</h2>
+		<div>
+			<!--  to do : country X city X address (Join) Limit 100-->
+			<table border = "1">
+				<thead>
+					<tr>
+						<th>cityId</th>
+						<th>address</th>
+						<th>address2</th>
+						<th>district</th>
+						<th>postalCode</th>
+						<th>phone</th>
+						<th>lastUpdate</th>
+					</tr>
+				</thead>
+				<tbody id="List">
+				
+				</tbody>
+			</table>
+			
+		</div>
+	</div>
+</body>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+
+<script>
+	//aside.html include
+	$("#aside").load("/sakila/aside.html");
+	
+	//리스트 출력
+	$.ajax({
+		url:"/sakila/selectAddressList",
+		method:"POST",
+		success:function(json){
+			console.log(json);
+			$(json).each(function(index, item){
+				temp = "<tr><td>"+item.city.cityId+"</td>"+
+				 		"<td>"+item.adress+"</td>"+
+				 		"<td>"+item.adress2+"</td>"+
+				 		"<td>"+item.district+"</td>"+
+				 		"<td>"+item.postalCode+"</td>"+
+				 		"<td>"+item.phone+"</td>"+
+				 		"<td>"+item.lastUpdate+"</td></tr>";
+				$("#List").append(temp);
+			});
+		}
+	});
+	
+	//country와 city가 입력 되면 입력창 띄우기 입력창엔 address, address2, district, postalcode, phone입력
+</script>
+</html>
