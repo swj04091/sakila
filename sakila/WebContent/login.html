@@ -38,16 +38,18 @@
 </head>
 <body>
 	<div id="aside">
-		
+	
 	</div>
 	<div id="section">
-		<h1>VIDEO SHOP</h1>
+		<h1>Login</h1>
 		<div>
-		<button type="button" id="logout">Logout</button>
-			<div id="loginState"></div>
-			<!-- 테이블 목록 -->
-			<!-- view 목록 -->
-			<!-- 트리거  -->
+			직원번호 <input type="text" id="staffId">
+		</div>
+		<div>
+			비밀번호 <input type="password" id="password">
+		</div>
+		<div>
+			<button type="button" id="loginBtn">Login</button>
 		</div>
 	</div>
 </body>
@@ -55,36 +57,28 @@
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
 
 <script>
-	//aside.html include
-	$("#aside").load("/sakila/aside.html");
 	
-	//servlet으로 sessionInfo값을 ajax 동기요청
-	$.ajax({
-		url:"/sakila/GetSessioninfo", 
-		method:"post",
-		  async: false,//동기 요청
-		  success: function(json){
-			  console.log("로그인 인증확인");
-			  loginState = json;
-			  console.log(loginState);
-		 	}
-  		});
-			//session 에 값이 없을 경우 로그인 페이지로 	
-		if(loginState == null){
-			location.href = "/sakila/login.html";
-		}else{
-			
-		}
+	$("#loginBtn").click(function(){
 		
-		$("#logout").click(function(){
+		console.log($("#staffId").val());
+		console.log($("#password").val());
+		
+		if($("#staffId").val() == "" || $("#password").val() == ""){
+			alert("스태프 번호와 비밀번호가 입력이 안되었거나 틀렸습니다.");
+		}else{
 			$.ajax({
-				url:"/sakila/logout",
-				method:"post",
-				success: function(){
-					location.href = "/sakila/login.html";
-				}
-			})
-		});
+				url : "/sakila/Login",
+				method : "POST",
+				data : {"staffId" : $("#staffId").val(),
+						"password" : $("#password").val()},
+				success : function(){
+					location.href = "/sakila/index.html"
+				},
+				error:function(){   
+					alert("스태프 번호나 비밀번호가 틀렸습니다.");
+					}
+			});
+		}
+	});
 </script>
-
 </html>

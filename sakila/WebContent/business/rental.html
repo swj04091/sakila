@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-<title>sakila index</title>
+<title>Rental</title>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <style>
@@ -38,16 +38,25 @@
 </head>
 <body>
 	<div id="aside">
-		
+	
 	</div>
 	<div id="section">
-		<h1>VIDEO SHOP</h1>
+		<h1>Rental</h1>
 		<div>
-		<button type="button" id="logout">Logout</button>
-			<div id="loginState"></div>
-			<!-- 테이블 목록 -->
-			<!-- view 목록 -->
-			<!-- 트리거  -->
+			<table border="1">
+				<thead>
+					<tr>
+						<th>Rental_id</th>
+						<th>Rental_date</th>
+						<th>title</th>
+						<th>customer_id</th>
+						<th>staff_id</th>
+					</tr>
+				</thead>
+				<tbody>
+					
+				</tbody>
+			</table>
 		</div>
 	</div>
 </body>
@@ -57,34 +66,5 @@
 <script>
 	//aside.html include
 	$("#aside").load("/sakila/aside.html");
-	
-	//servlet으로 sessionInfo값을 ajax 동기요청
-	$.ajax({
-		url:"/sakila/GetSessioninfo", 
-		method:"post",
-		  async: false,//동기 요청
-		  success: function(json){
-			  console.log("로그인 인증확인");
-			  loginState = json;
-			  console.log(loginState);
-		 	}
-  		});
-			//session 에 값이 없을 경우 로그인 페이지로 	
-		if(loginState == null){
-			location.href = "/sakila/login.html";
-		}else{
-			
-		}
-		
-		$("#logout").click(function(){
-			$.ajax({
-				url:"/sakila/logout",
-				method:"post",
-				success: function(){
-					location.href = "/sakila/login.html";
-				}
-			})
-		});
 </script>
-
 </html>

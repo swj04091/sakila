@@ -24,7 +24,7 @@ public class InsertCustomer extends HttpServlet {
 		System.out.println("Servlet넘어옴");
 		//address 관련 request.getParameter("")
 		int CityId = Integer.parseInt(request.getParameter("cityId"));
-		System.out.println(CityId);
+		System.out.println("INSERT Customer CITY ID: "+CityId);
 		
 		Address address = new Address();
 		address.setCity(new City());
@@ -34,7 +34,7 @@ public class InsertCustomer extends HttpServlet {
 		address.setDistrict(request.getParameter("district"));
 		address.setPostalCode(request.getParameter("postalCode"));
 		address.setPhone(request.getParameter("phone"));
-		System.out.println(address);
+		System.out.println("Insert Customer Address: "+address);
 		
 		
 		int storeId = Integer.parseInt(request.getParameter("storeId"));
@@ -47,7 +47,7 @@ public class InsertCustomer extends HttpServlet {
 		customer.setLastName(request.getParameter("lastName"));
 		customer.setEmail(request.getParameter("email"));
 		customer.setAddress(new Address());
-		System.out.println(customer);
+		System.out.println("Insert Customer customer: "+customer);
 		
 		customerService.insertCustomer(address, customer);
 		

@@ -44,7 +44,8 @@ public class CustomerService {
 	public void insertCustomer(Address address, Customer customer) {
 		
 		System.out.println("CustomerService로 넘어옴");
-		System.out.println(customer);
+		System.out.println("Service address: "+address);
+		System.out.println("Service customer: "+customer);
 		
 		Connection conn = null;
 		
@@ -54,12 +55,12 @@ public class CustomerService {
 			addressDao = new AddressDao();
 			int addressId = addressDao.insertAddress(conn, address);
 			customer.getAddress().setAdressId(addressId);
-			System.out.println("Service: "+addressId);
+			System.out.println("Service AddressId: "+addressId);
 			customerDao = new CustomerDao();
 			customerDao.insertCustomer(conn, customer);
 			
-			System.out.println(address.toString());
-			System.out.println(customer.toString());
+			System.out.println("DAO Address: "+address.toString());
+			System.out.println("DAO customer: "+customer.toString());
 			conn.commit();
 		}catch(Exception e) {
 			try {
