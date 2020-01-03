@@ -1,12 +1,15 @@
 package sakila.business.model;
 
+import sakila.customer.model.Customer;
+import sakila.inventory.model.Inventory;
+
 public class Rental {
 	private int rentalId;
 	private String rentalDate;
-	private int inventoryId;
-	private int customerId;
+	private Inventory inventory;
+	private Customer customer;
 	private String returnDate;
-	private int staffId;
+	private Staff staff;
 	private String lastUpdate;
 	public int getRentalId() {
 		return rentalId;
@@ -20,17 +23,17 @@ public class Rental {
 	public void setRentalDate(String rentalDate) {
 		this.rentalDate = rentalDate;
 	}
-	public int getInventoryId() {
-		return inventoryId;
+	public Inventory getInventory() {
+		return inventory;
 	}
-	public void setInventoryId(int inventoryId) {
-		this.inventoryId = inventoryId;
+	public void setInventory(Inventory inventory) {
+		this.inventory = inventory;
 	}
-	public int getCustomerId() {
-		return customerId;
+	public Customer getCustomer() {
+		return customer;
 	}
-	public void setCustomerId(int customerId) {
-		this.customerId = customerId;
+	public void setCustomer(Customer customer) {
+		this.customer = customer;
 	}
 	public String getReturnDate() {
 		return returnDate;
@@ -38,11 +41,11 @@ public class Rental {
 	public void setReturnDate(String returnDate) {
 		this.returnDate = returnDate;
 	}
-	public int getStaffId() {
-		return staffId;
+	public Staff getStaff() {
+		return staff;
 	}
-	public void setStaffId(int staffId) {
-		this.staffId = staffId;
+	public void setStaff(Staff staff) {
+		this.staff = staff;
 	}
 	public String getLastUpdate() {
 		return lastUpdate;
@@ -52,8 +55,8 @@ public class Rental {
 	}
 	@Override
 	public String toString() {
-		return "Rental [rentalId=" + rentalId + ", rentalDate=" + rentalDate + ", inventoryId=" + inventoryId
-				+ ", customerId=" + customerId + ", returnDate=" + returnDate + ", staffId=" + staffId + ", lastUpdate="
+		return "Rental [rentalId=" + rentalId + ", rentalDate=" + rentalDate + ", inventory=" + inventory
+				+ ", customer=" + customer + ", returnDate=" + returnDate + ", staff=" + staff + ", lastUpdate="
 				+ lastUpdate + "]";
 	}
 	

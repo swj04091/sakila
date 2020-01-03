@@ -42,7 +42,9 @@
 	</div>
 	<div id="section">
 		<h1>Rental</h1>
+		
 		<div>
+		<h3>대여현황</h3>
 			<table border="1">
 				<thead>
 					<tr>
@@ -51,9 +53,10 @@
 						<th>title</th>
 						<th>customer_id</th>
 						<th>staff_id</th>
+						<th>반납완료</th>
 					</tr>
 				</thead>
-				<tbody>
+				<tbody id= "rentalResult">
 					
 				</tbody>
 			</table>
@@ -66,5 +69,42 @@
 <script>
 	//aside.html include
 	$("#aside").load("/sakila/aside.html");
+	
+	$.ajax({
+		url : "/sakila/getRentalList",
+		method : "post",
+		success : function(json){
+			console.log("Rental 현황 보여주기");
+			console.log(json);
+			console.log(json.length);
+			for(let i = 0; i<json.length; i++){
+				let html = "<tr><td>"+json[i].rentalId+"</td><td>"+json[i].rentalDate
+							+"</td><td>"+json[i].inventory.film.title+"</td><td>"+json[i].customer.customerId
+							+"</td><td>"+json[i].staff.StaffId+"</td><td><button type='button' value="+json[i].rentalId+" class='videoReturn'>반납하기</td></tr>";
+				$("#rentalResult").append(html);
+				
+				}
+			$(".videoReturn").click(function(){
+				console.log($(this).val()+"반납");
+				let videoReturn = confirm("반납완료처리를 하시겠습니까?");
+				if(videoReturn){
+					$.ajax({
+						url : "/sakila/returnVideo",
+						method : "post",
+						data : {"rentalId" : $(this).val()},
+						success : function(){
+							console.log("반납완료!");
+							alert("반납완료처리가 되었습니다.");
+							location.reload();	
+						}
+					});
+				}else{
+					alert("취소하셨습니다.");
+				}
+			});
+			
+			}
+		});
+	
 </script>
 </html>
