@@ -1,18 +1,27 @@
 package sakila.business.service;
 
 import java.sql.Connection;
+import java.util.List;
 
 import sakila.address.model.Address;
 import sakila.address.model.AddressDao;
 import sakila.business.model.Staff;
 import sakila.business.model.StaffDao;
-import sakila.customer.model.CustomerDao;
 import sakila.db.DBHelper;
 
 public class StaffService {
 	
 	private AddressDao addressDao;
 	private StaffDao staffDao;
+	
+	public List<Staff> SelectStaff(){
+		System.out.println("SelectStaff StaffService");
+		List <Staff> list = null;
+		staffDao = new StaffDao();
+		list = staffDao.selectStaff();
+		System.out.println("ResultDao: "+list);
+		return list;
+	} 
 	
 	public void insertStaff (Address address, Staff staff) {
 		System.out.println("StaffService!");

@@ -37,6 +37,7 @@
 	}
 </style>
 </head>
+
 <body>
 	<div id="aside">
 	
@@ -112,11 +113,32 @@
 				</fieldset>
 				<button type="button" id="AddStaff">스태프입력</button>
 			</form>
+			
+			<div>
+			<h2>스태프 목록</h2>
+				<table border = '1'>
+					<thead>
+						<tr>
+							<th>스태프 번호</th>
+							<th>이름</th>
+							<th>이메일</th>
+							<th>매장 번호</th>
+							<th>활성화 여부</th>
+							<th>아이디</th>
+						</tr>
+					</thead>
+				
+					<tbody id = "staffInfo">
+						
+					</tbody>
+				</table>
+			</div>
+			
 		</div>
+		
 </body>
 
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
-
 <script>
 	//aside.html include
 	$("#aside").load("/sakila/aside.html");
@@ -159,6 +181,26 @@
 		});
 	});
 	
+	//페이지가 실행될때 스태프들의 목록을 보여준다.
+	$.ajax({
+		url : "/sakila/selectStaff",
+		method : "post",
+		success : function(json){
+			console.log(json);
+			$(json).each(function (index, item){
+				let temp = "<tr>"
+						 + "<td>"+item.StaffId+"</td>"
+						 + "<td>"+item.firstName+"</td>"
+						 + "<td>"+item.email+"</td>"
+						 + "<td>"+item.store.storeId+"</td>"
+						 + "<td>"+item.active+"</td>"
+						 + "<td>"+item.userName+"</td>"
+						 + "</tr>";
+				$("#staffInfo").append(temp);
+			});	
+		}
+	});
+	
 	//cityList에서 city를 누를때 cityId의 값이 CityId 칸에 입력이 됨.
 	$("#cityList").click(function(){
 		$("#cityId").val($("#cityList").val());
@@ -169,7 +211,7 @@
 			url:"/sakila/insertStaff",
 			method:"POST",
 			data:{"cityId":$("#cityId").val(), 
-				"address":$("#address").val(), 
+				"address":$("#address").val(),
 				"address2":$("#address2").val(), 
 				  "district":$("#district").val(), 
 				  "postalCode":$("#postalCode").val(), 
@@ -183,11 +225,9 @@
 				  },
 			success:function(json){
 				console.log("success!");
+				location.reload();
 			}
 		});
-	});
-	
-	
-	
+	});	
 </script>
 </html>

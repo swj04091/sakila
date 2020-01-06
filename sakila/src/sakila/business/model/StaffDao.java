@@ -3,10 +3,46 @@ package sakila.business.model;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.util.ArrayList;
+import java.util.List;
 
 import sakila.db.DBHelper;
 
 public class StaffDao {
+	
+	public List<Staff> selectStaff(){
+		System.out.println("selectStaff DAO!");
+		List<Staff> list = new ArrayList<Staff>();
+		Connection conn = null;
+		PreparedStatement stmt = null;
+		ResultSet rs = null;
+		String sql =  "SELECT staff_id, CONCAT(first_name,' ',last_name) AS Name, email, store_id, active, username FROM staff";
+		try {
+			conn = DBHelper.getConnection();
+			stmt = conn.prepareStatement(sql);
+			rs = stmt.executeQuery();
+			while(rs.next()) {
+				Staff staff = new Staff();
+				staff.setStaffId(rs.getInt("staff_id"));
+				staff.setFirstName(rs.getString("Name"));
+				staff.setEmail(rs.getString("email"));
+				
+				staff.setStore(new Store());
+				staff.getStore().setStoreId(rs.getInt("store_id"));
+				
+				staff.setActive(rs.getInt("active"));
+				staff.setUserName(rs.getString("username"));
+				
+				list.add(staff);
+			}
+			
+		}catch(Exception e) {
+			e.printStackTrace();
+		}finally {
+			DBHelper.close(rs, stmt, conn);
+		}
+		return list;
+	}
 	
 	public void insertStaff(Connection conn, Staff staff) {
 		System.out.println(conn);
