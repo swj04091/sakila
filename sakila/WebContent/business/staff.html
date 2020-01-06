@@ -42,11 +42,77 @@
 	
 	</div>
 	<div id="section">
-		<h1>INDEX</h1>
+		<h1>스태프 관리</h1>
 		<div>
-		
+			<table border="1">
+					<tr>
+						<td>
+							<!-- country List -->
+							<div>
+								<select size="10" id="countryList"></select>
+							</div>
+						</td>
+						<td>
+							<!-- city List -->
+							<div>
+								<select size="10" id="cityList"></select>
+							</div>
+						</td>
+					</tr>
+				</table>
+			</div>
+			<h3>스태프정보 입력</h3>
+				<!-- 고객의 정보가 입력 -->
+				<form>
+					<fieldset>
+						<legend>주소입력</legend>
+						<div>
+							<div>
+								CityId
+								<input type="text" id="cityId" readonly="readonly">
+							</div>
+							<div>
+								Address
+								<input type="text" id="address">
+							</div>
+							<div>
+								Address2
+								<input type="text" id="address2">
+							</div>
+							<div>
+								district
+								<input type="text" id="district">			
+							</div>
+							<div>
+								postalCode
+								<input type="text" id="postalCode">
+							</div>
+							<div>
+								Phone
+								<input type="text" id="phone">
+							</div>
+					</div>
+				</fieldset>
+				
+				<fieldset>
+					<legend>스태프정보</legend>
+					<div>
+						storeId:
+						<select id="storeId">
+							<option value="1">1</option>
+							<option value="2">2</option>
+						</select>
+					</div>
+					<div>firstName: <input type="text" id="firstName"></div>
+					<div>lastName: <input type="text" id="lastName"></div>
+					<div>E-Mail: <input type="text" id="email"></div>
+					<div>UserName: <input type="text" id="userName"></div>
+					<div>Password: <input type="password" id="password"></div>
+					
+				</fieldset>
+				<button type="button" id="AddStaff">스태프입력</button>
+			</form>
 		</div>
-	</div>
 </body>
 
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
@@ -54,5 +120,74 @@
 <script>
 	//aside.html include
 	$("#aside").load("/sakila/aside.html");
+	
+	//country의 리스트를 출력
+	$.ajax({
+		url:"/sakila/selectCountryListAll",
+		method:"POST",
+		success:function(json){
+			$("#countryList").empty();
+			$(json).each(function(index, item){	//for문과 같음. each 함수
+				temp = "<option value='";
+				temp += item.countryId;
+				temp += "'>";
+				temp += item.country;
+				temp += "</option>";
+				
+				$("#countryList").append(temp);
+			});
+		}
+	});
+	
+	//countryList가 변경될때 실행
+	$("#countryList").change(function(){
+		$.ajax({
+			url:"/sakila/selectCityListByCountry",
+			method:"POST",
+			data:{"countryId":$("#countryList").val()},
+			success:function(json){
+				$("#cityList").empty();
+				$(json).each(function(index, item){
+					temp = "<option value='";
+					temp += item.cityId;
+					temp += "'>";
+					temp += item.city;
+					temp += "</option>";
+					$("#cityList").append(temp);
+				});
+			}
+		});
+	});
+	
+	//cityList에서 city를 누를때 cityId의 값이 CityId 칸에 입력이 됨.
+	$("#cityList").click(function(){
+		$("#cityId").val($("#cityList").val());
+	});
+	
+	$("#AddStaff").click(function(){
+		$.ajax({
+			url:"/sakila/insertStaff",
+			method:"POST",
+			data:{"cityId":$("#cityId").val(), 
+				"address":$("#address").val(), 
+				"address2":$("#address2").val(), 
+				  "district":$("#district").val(), 
+				  "postalCode":$("#postalCode").val(), 
+				  "phone":$("#phone").val(),
+				  "storeId":$("#storeId").val(), 
+				  "firstName":$("#firstName").val(), 
+				  "lastName":$("#lastName").val(),
+				  "email":$("#email").val(),
+				  "userName":$("#userName").val(),
+				  "password":$("#password").val()
+				  },
+			success:function(json){
+				console.log("success!");
+			}
+		});
+	});
+	
+	
+	
 </script>
 </html>
